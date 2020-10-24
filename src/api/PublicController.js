@@ -13,7 +13,7 @@ class PublicController {
       width: 150,
       height: 38,
     })
-    // setValue(body.sid, newCaptca.text, 10*60)
+    setValue(body.sid, newCaptca.text, 10*60)
     // getValue(body.sid).then((res)=>{
     //   console.log(res);
     // })

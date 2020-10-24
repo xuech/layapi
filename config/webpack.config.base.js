@@ -11,9 +11,7 @@ const webpackconfig = {
     server: path.join(utils.APP_PATH, 'index.js')
   },
   resolve: {
-    alias: {
-      '@': utils.APP_PATH
-    }
+    ...utils.getWebpackResolveConfig()
   },
   output: {
     filename: '[name].bundle.js',
@@ -33,11 +31,7 @@ const webpackconfig = {
   externals: [nodeExcternals()],
   plugins: [
     new CleanWebpackPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod') ? "'production'" : "'development'"
-      }
-    })
+    new webpack.EnvironmentPlugin(['NODE_ENV'])
   ],
   node: {
     console: true,

@@ -1,5 +1,5 @@
 import redis from 'redis'
-import { promisifyAll } from 'bluebird'
+// import { promisifyAll } from 'bluebird'
 import config from './index'
 
 const options = {
@@ -27,8 +27,8 @@ const options = {
   }
 }
 
-// const client = redis.createClient(options)
-const client = promisifyAll(redis.createClient(options))
+const client = redis.createClient(options)
+// const client = promisifyAll(redis.createClient(options))
 
 client.on('error', (err) => {
   console.log('Redis Client Error:' + err)

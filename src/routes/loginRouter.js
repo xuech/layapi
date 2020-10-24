@@ -5,6 +5,6 @@ const router = new Router()
 
 router.prefix('/login')
 // 登录接口
-router.get('/login', loginController.login)
+router.post('/login', loginController.login)
 
 export default router
