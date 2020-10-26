@@ -25,7 +25,7 @@ class LoginController {
                     delete userObj[item]
                 })
                 //3、生成token并返回客户端
-                let token = jsonwebtoken.sign({ _id: 'brian' }, config.JWT_SECRET, {
+                let token = jsonwebtoken.sign({ _id: userObj._id }, config.JWT_SECRET, {
                     expiresIn: '1d'
                 })
                 ctx.body = {

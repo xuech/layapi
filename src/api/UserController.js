@@ -5,7 +5,6 @@ import moment from 'dayjs'
 
 class UserController {
   async userSign (ctx) {
-        console.log('xx');
     // 取用户的ID
     const obj = await getJWTPayload(ctx.header.authorization)
     // 查询用户上一次签到记录
@@ -26,7 +25,7 @@ class UserController {
           code: 500,
           favs: user.favs,
           count: user.count,
-          lastSign: record.created,
+          lastSign: moment(record.created).format('YYYY-MM-DD HH:mm:ss'),
           msg: '用户已经签到'
         }
         return
