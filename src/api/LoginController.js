@@ -17,13 +17,22 @@ class LoginController {
         if (res) {
             //2、校验用户名和密码和数据库中是否一致
             let user = await User.findOne( { username: body.username })
-            if (user.password === body.password) {
+            let checkRes = await bcrypt.compare(body.password, user.password)
+            if (checkRes) {
+                const userObj = user.toJSON()
+                const arr = ["password", "username"]
+                arr.map((item) => {
+                    delete userObj[item]
+                })
                 //3、生成token并返回客户端
                 let token = jsonwebtoken.sign({ _id: 'brian' }, config.JWT_SECRET, {
                     expiresIn: '1d'
                 })
                 ctx.body = {
                     code: 200,
+                    data: {
+                        ...userObj
+                    },
                     token: token,
                     msg: '登录成功'
                 }

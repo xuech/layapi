@@ -20,6 +20,16 @@ const UserSchema = new Schema({
   count: { type: Number, default: 0 }
 })
 
+UserSchema.statics = {
+  findByID: function (id) {
+    return this.findOne({ _id: id },{
+      password: 0,
+      username: 0,
+      mobile: 0
+    })
+  }
+}
+
 const UserModel = mongoose.model('users', UserSchema)
 
 export default UserModel
