@@ -3,6 +3,9 @@ import jsonwebtoken from 'jsonwebtoken'
 import config from '../config'
 import { checkCode } from "../common/Utils";
 import User from "../model/User";
+import SignRecordModel from '../model/SignRecord';
+import moment from 'dayjs'
+
 
 class LoginController {
     constructor() {}
@@ -20,7 +23,7 @@ class LoginController {
             let checkRes = await bcrypt.compare(body.password, user.password)
             if (checkRes) {
                 const userObj = user.toJSON()
-                const arr = ["password", "username"]
+                const arr = ["password"]
                 arr.map((item) => {
                     delete userObj[item]
                 })
@@ -28,6 +31,20 @@ class LoginController {
                 let token = jsonwebtoken.sign({ _id: userObj._id }, config.JWT_SECRET, {
                     expiresIn: '1d'
                 })
+                //4、 加入签到记录
+                const signRecord = await SignRecordModel.findByUid(userObj._id)
+                if (signRecord != null) {
+                    if (moment(signRecord.created).format('YYYY-MM-DD') ===
+                        moment().format('YYYY-MM-DD')
+                    ) {
+                        userObj.isSign = true
+                    } else {
+                        userObj.isSign = false
+                    }
+
+                } else {
+                    userObj.isSign = false
+                }
                 ctx.body = {
                     code: 200,
                     data: {

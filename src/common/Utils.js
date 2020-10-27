@@ -3,7 +3,6 @@ import config from '../config/index'
 import jwt from 'jsonwebtoken'
 
 const getJWTPayload = token => {
-    console.log('xxx')
   return jwt.verify(token.split(' ')[1], config.JWT_SECRET)
 }
 
